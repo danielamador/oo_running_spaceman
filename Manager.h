@@ -2,7 +2,7 @@
 
 class Manager
 {
-	short framesPerSecond;
+	Uint32 framesPerSecond;
 	short screenWidth;
 	short screenHeight;
 	SDL_Window *window;

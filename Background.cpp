@@ -10,17 +10,17 @@ Background::Background(SDL_Renderer *rendererArg):DrawableElement(rendererArg)//
 	height = 480;
 }
 
-void Background::loadImage(char path[])
+void Background::loadImage()
 {
 	surface = new SDL_Surface *[1];
-	//surface[0] = SDL_LoadBMP(path);
-	surface[0] = SDL_LoadBMP("spacemanLarge/spaceman_0001.png");
+	surface[0] = SDL_LoadBMP("1.bmp");
 	if(surface[0] == nullptr)
 		std::cout<<"SDL_LoadBMPError!: "<<SDL_GetError()<<std::endl;
 	texture = new SDL_Texture *[1];
 	texture[0] = SDL_CreateTextureFromSurface(associate_rendr,surface[0]);
 	if(texture[0] == nullptr)
-		std::cout<<"SDL_CreateTextureFromSurface!: "<<SDL_GetError()<<std::endl;		
+		std::cout<<"SDL_CreateTextureFromSurface!: "<<SDL_GetError()<<std::endl;
+	SDL_FreeSurface(surface[0]);
 }
 
 void Background::putInRenderer()

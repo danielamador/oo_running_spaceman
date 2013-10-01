@@ -14,7 +14,7 @@ class DrawableElement
 	public:
 		DrawableElement(SDL_Renderer *rendererArg = nullptr);
 		~DrawableElement();
-		virtual void loadImage(char path[]) = 0;
+		virtual void loadImage() = 0;
 		virtual void putInRenderer() = 0;
 		virtual void processEvents(const SDL_Event &sdlEvent) = 0;
 		virtual void updateState() = 0;

@@ -37,11 +37,46 @@ void Manager::startMain()
 	createRenderer(-1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
 	Background *backElement = new Background(renderer);
-	Player *player = new Player();
-	backElement->loadImage("1.bmp");
-	//backElement->putInRenderer();
-	player->loadImage("anything");
-	player->putInRenderer();
-	SDL_RenderPresent(renderer);
-	SDL_Delay(2000);
+	Player *player = new Player(renderer);
+
+	backElement->loadImage();
+	player->loadImage();
+	bool quit = false;
+
+	while(!quit)
+	{
+		SDL_RenderClear(renderer);
+		
+		//Used to regulate the frame rate
+		Uint32 frameStartTime = SDL_GetTicks();
+
+		//Process any events from the event queue - such as key presses or mouse movements
+		while(SDL_PollEvent(&eventManager)) 
+		{
+			player->processEvents(eventManager);
+			if(eventManager.type == SDL_QUIT) 
+				quit = true;
+
+			if (eventManager.type == SDL_KEYDOWN) 
+			{   //A key has just pressed
+				if(eventManager.key.keysym.sym == SDLK_ESCAPE) 
+					quit = true;
+			}
+		}
+
+		player->updateState();
+		backElement->putInRenderer();	
+		player->putInRenderer();
+		SDL_RenderPresent(renderer);
+
+
+		//Regulate the frame rate
+		Uint32 frameTime = SDL_GetTicks() - frameStartTime;
+		
+		if( frameTime < 1000 / framesPerSecond )
+		{
+			//Sleep the remaining frame time
+			SDL_Delay( ( 1000 / framesPerSecond ) - frameTime );
+		}
+	}
 }

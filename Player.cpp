@@ -30,7 +30,7 @@ Player::~Player()
     }
 }
 
-void Player::loadImage(char path[])
+void Player::loadImage()
 {
 	char filename[200];
 	for(short register index=0; index<8; ++index) 
@@ -38,10 +38,14 @@ void Player::loadImage(char path[])
         sprintf(filename, "spacemanLarge/spaceman_%04d.png", index);
 		//Load the image
         surface[index] = IMG_Load(filename);
+		if(surface[index] == nullptr)
+			std::cout<<"Load Image: SDL_LoadBMPError!: "<<SDL_GetError()<<std::endl;
 		texture[index] = SDL_CreateTextureFromSurface(associate_rendr, surface[index]);
-		//SDL_FreeSurface(surface[index]);//since I don't need the surfaces anymore, I can free them
+		SDL_FreeSurface(surface[index]);//since I don't need the surfaces anymore, I can free them
 		                              //In my tests, it's saving about 15MB in RAM
+
     }
+	
 }
 
 void Player::updateState()
@@ -142,7 +146,6 @@ void Player::putInRenderer()
 	dstRect.h = height;
     //Draw the character to the screen
 	SDL_RenderCopy(associate_rendr, texture[direction], &srcRect, &dstRect);
-	
 }
 
 void Player::processEvents(const SDL_Event &sdlEvent)

@@ -12,7 +12,7 @@ class Player : public DrawableElement
 public:
 	Player(SDL_Renderer *rendererArg = nullptr);
 	~Player();
-	void loadImage(char path[]);
+	void loadImage();
 	virtual void putInRenderer();
 	virtual void processEvents(const SDL_Event &sdlEvent);
 	virtual void updateState();
